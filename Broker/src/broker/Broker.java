@@ -11,13 +11,30 @@ package broker;
  * @author a09001005
  */
 public class Broker {
+    private String ip;
+    private String port;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        //push!!
+    public Broker(String ip, String port) {
+        this.ip = ip;
+        this.port = port;
     }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+    
+
     
 }
