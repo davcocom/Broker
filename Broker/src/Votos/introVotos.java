@@ -5,7 +5,6 @@ package Votos;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import Votos.Candidato;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -13,42 +12,50 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author vaio
  */
 public class introVotos extends javax.swing.JFrame {
-
+    
     ArrayList<Candidato> candidatos;
 
     /**
      * Creates new form introVotos
      */
     public introVotos() {
-        candidatos=crearListaCandidato();
+        candidatos = crearListaCandidato();
         initComponents();
         init();
     }
-
+    
     public void init() {
         DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
         for (Candidato cand : candidatos) {
             modeloCombo.addElement(cand.getNombre());
         }
         comboCandidatos.setModel(modeloCombo);
+        seleccionEliminar.setModel(modeloCombo);
     }
     
-    private ArrayList crearListaCandidato(){
+    private ArrayList crearListaCandidato() {
         Candidato candidato;
-        ArrayList candidatos=new ArrayList();
+        ArrayList candidatos = new ArrayList();
         for (int i = 0; i < 3; i++) {
-            candidatos.add(new Candidato("candidato "+i,0));
+            candidatos.add(new Candidato("candidato " + i, i));
         }
         return candidatos;
     }
     
-    
+    public String toString(ArrayList arreglo) {
+        String cadena = "";
+        for (Object candidato : arreglo) {
+            cadena += candidato.toString();
+        }
+        return cadena;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,12 +72,12 @@ public class introVotos extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtElim = new javax.swing.JTextField();
         btnEliminar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         btnGraficas = new javax.swing.JButton();
+        seleccionEliminar = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +122,8 @@ public class introVotos extends javax.swing.JFrame {
             }
         });
 
+        seleccionEliminar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,8 +159,8 @@ public class introVotos extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnAgregar))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(txtElim, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(34, 34, 34)
+                            .addComponent(seleccionEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(102, 102, 102)
                             .addComponent(btnEliminar))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -180,8 +189,8 @@ public class introVotos extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtElim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnEliminar)
+                    .addComponent(seleccionEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -193,14 +202,43 @@ public class introVotos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVotarActionPerformed
-
+        candidatos.get(comboCandidatos.getSelectedIndex()).votar();
+        System.out.println(toString(candidatos));
     }//GEN-LAST:event_btnVotarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-
+        if (!txtNombre.getText().equals("")) {
+            boolean encontrado = false;
+            for (Candidato candidato : candidatos) {
+                if (candidato.getNombre().equals(txtNombre.getText())) {
+                    encontrado = true;
+                }
+            }
+            if (!encontrado) {
+                int temp = candidatos.size();
+                candidatos.add(new Candidato(txtNombre.getText(), temp++));
+                init();                
+            } else {
+                JOptionPane.showMessageDialog(this, "Candidato previamente añadido");
+            }
+            
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(this,
+                "Seguro que desea eliminar a Candidato "
+                + seleccionEliminar.getSelectedItem().toString()
+                + " id: "
+                + candidatos.get(seleccionEliminar.getSelectedIndex()).getId());
+        if (respuesta == JOptionPane.YES_OPTION) {
+            for (Candidato candidato : candidatos) {
+                if (candidato.getNombre().equals(seleccionEliminar.getSelectedItem().toString())) {
+                    candidatos.remove(candidato);
+                    init();
+                }
+            }
+        }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -214,9 +252,9 @@ public class introVotos extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
-     * 
+     *
      */
-        public static void main(String args[]) {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -230,8 +268,9 @@ public class introVotos extends javax.swing.JFrame {
                 new introVotos().setVisible(true);
             }
         });
+        
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -244,7 +283,7 @@ public class introVotos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField txtElim;
+    private javax.swing.JComboBox seleccionEliminar;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

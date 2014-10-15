@@ -13,20 +13,28 @@ public class Candidato {
 
     private String nombre;
     private int votos;
-    private int id;
+    private String id="CND";
 
-    public Candidato(String nombre, int votos) {
+    public Candidato(String nombre,int id) {
         this.nombre = nombre;
-        this.votos = votos;
+        this.votos = 0;
+        this.id+=id;
     }
 
-    public int getId() {
+    @Override
+    public String toString() {
+        return nombre + "," + votos + "," + id+"|";
+    }
+    
+
+    public void votar(){
+        votos++;
+    }
+
+    public String getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    
 
     public String getNombre() {
         return nombre;
