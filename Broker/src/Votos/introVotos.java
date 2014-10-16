@@ -6,6 +6,7 @@ package Votos;
  * and open the template in the editor.
  */
 import Votos.Candidato;
+import broker.ProxyVotos;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
@@ -44,7 +45,7 @@ public class introVotos extends javax.swing.JFrame {
         Candidato candidato;
         ArrayList candidatos = new ArrayList();
         for (int i = 0; i < 3; i++) {
-            candidatos.add(new Candidato("candidato " + i, i));
+            candidatos.add(new Candidato("candidato" + i, i));
         }
         return candidatos;
     }
@@ -217,7 +218,9 @@ public class introVotos extends javax.swing.JFrame {
             if (!encontrado) {
                 int temp = candidatos.size();
                 candidatos.add(new Candidato(txtNombre.getText(), temp++));
-                init();                
+                init();
+                JOptionPane.showMessageDialog(this, "Candidato "+txtNombre.getText()+" fue añadido con exito");
+                txtNombre.setText("");
             } else {
                 JOptionPane.showMessageDialog(this, "Candidato previamente añadido");
             }
@@ -236,6 +239,7 @@ public class introVotos extends javax.swing.JFrame {
                 if (candidato.getNombre().equals(seleccionEliminar.getSelectedItem().toString())) {
                     candidatos.remove(candidato);
                     init();
+                    break;
                 }
             }
         }
@@ -244,6 +248,8 @@ public class introVotos extends javax.swing.JFrame {
 
     private void btnGraficasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraficasActionPerformed
         // TODO add your handling code here:
+        ProxyVotos proxy=new ProxyVotos();
+        proxy.peticionServicio("Graficar", toString(candidatos));
     }//GEN-LAST:event_btnGraficasActionPerformed
 
     private void comboCandidatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboCandidatosActionPerformed
