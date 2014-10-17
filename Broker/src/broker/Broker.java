@@ -19,6 +19,10 @@ public class Broker {
         this.port = port;
     }
 
+    Broker() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public String getIp() {
         return ip;
     }
