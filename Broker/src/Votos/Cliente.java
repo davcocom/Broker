@@ -1,12 +1,13 @@
 package Votos;
 
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import Votos.Candidato;
-import broker.ProxyVotos;
+
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
@@ -19,14 +20,12 @@ import javax.swing.JOptionPane;
  *
  * @author vaio
  */
-public class introVotos extends javax.swing.JFrame {
+public class Cliente extends javax.swing.JFrame {
     
     ArrayList<Candidato> candidatos;
 
-    /**
-     * Creates new form introVotos
-     */
-    public introVotos() {
+
+    public Cliente() {
         candidatos = crearListaCandidato();
         initComponents();
         init();
@@ -204,7 +203,7 @@ public class introVotos extends javax.swing.JFrame {
 
     private void btnVotarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVotarActionPerformed
         candidatos.get(comboCandidatos.getSelectedIndex()).votar();
-        System.out.println(toString(candidatos));
+        
     }//GEN-LAST:event_btnVotarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -248,7 +247,7 @@ public class introVotos extends javax.swing.JFrame {
 
     private void btnGraficasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraficasActionPerformed
         // TODO add your handling code here:
-        ProxyVotos proxy=new ProxyVotos();
+        ProxyCliente proxy=new ProxyCliente();
         proxy.peticionServicio("Graficar", toString(candidatos));
     }//GEN-LAST:event_btnGraficasActionPerformed
 
@@ -271,7 +270,7 @@ public class introVotos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new introVotos().setVisible(true);
+                new Cliente().setVisible(true);
             }
         });
         
