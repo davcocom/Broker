@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /*
  * To change this template, choose Tools | Templates
@@ -43,6 +44,15 @@ public class ProtocoloServidor {
             entrada.close();
             
             socket.close();
+    }
+    
+    public boolean verificarServicio(ArrayList<Servidor> servidores,String servicioSolicitado){
+        for (Servidor servidor : servidores) {
+            if (servidor) {
+                
+            }
+        }
+        return false;
     }
     
 }

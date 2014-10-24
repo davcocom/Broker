@@ -22,6 +22,7 @@ public class ProxyServidor {
   
     ProtocoloServidor ps=new ProtocoloServidor();
     
+    
     public ArrayList convierteCadena(String s){
         ArrayList<Candidato> candidatos=new ArrayList();
         StringTokenizer token = new StringTokenizer(s,"|");
