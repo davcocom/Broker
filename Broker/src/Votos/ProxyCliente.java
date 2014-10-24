@@ -25,6 +25,7 @@ public class ProxyCliente {
     
     public ProxyCliente() {
         listaBroker=new ArrayList();
+        
     }
     
     /*

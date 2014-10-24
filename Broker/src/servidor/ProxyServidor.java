@@ -21,6 +21,16 @@ import java.util.StringTokenizer;
 public class ProxyServidor {
   
     ProtocoloServidor ps=new ProtocoloServidor();
+    ArrayList<String> servicios=new ArrayList();
+    ArrayList<Servidor> servidores=new ArrayList();
+
+    public ProxyServidor() {
+        Servidor serv=new Servidor();
+        servidores.add(serv);
+        servicios.add(serv.nombreServicio);
+    }
+    
+    
     
     public ArrayList convierteCadena(String s){
         ArrayList<Candidato> candidatos=new ArrayList();
